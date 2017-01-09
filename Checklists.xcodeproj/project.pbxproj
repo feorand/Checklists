@@ -96,8 +96,7 @@
 				TargetAttributes = {
 					7AFA3C421E13AFB400F5DDD7 = {
 						CreatedOnToolsVersion = 8.2.1;
-						DevelopmentTeam = VJ9QDXBTX6;
-						ProvisioningStyle = Automatic;
+						ProvisioningStyle = Manual;
 					};
 				};
 			};
@@ -261,7 +260,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = VJ9QDXBTX6;
+				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = Checklists/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.pavelprokofyev.Checklists;
@@ -275,7 +274,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = VJ9QDXBTX6;
+				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = Checklists/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.pavelprokofyev.Checklists;
