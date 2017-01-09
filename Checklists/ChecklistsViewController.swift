@@ -33,5 +33,4 @@ class ChecklistsViewController: UITableViewController {
         
         tableView.deselectRow(at: indexPath, animated: false)
     }
-    
 }
