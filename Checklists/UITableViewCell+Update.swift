@@ -10,7 +10,10 @@ import Foundation
 import UIKit
 
 extension UITableViewCell {
-    func update(checked:Bool) {
-        self.accessoryType = checked ? .checkmark : .none
+    func update(item: ChecklistItem) {
+        self.accessoryType = item.checked ? .checkmark : .none
+        
+        let label = self.viewWithTag(1000) as! UILabel
+        label.text = item.text
     }
 }

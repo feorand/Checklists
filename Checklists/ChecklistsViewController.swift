@@ -19,9 +19,7 @@ class ChecklistsViewController: UITableViewController {
         let item = items[indexPath.row]
 
         let cell = tableView.dequeueReusableCell(withIdentifier: "ChecklistCell")!
-        let label = cell.viewWithTag(1000) as! UILabel
-        label.text = item.text
-        cell.update(checked: item.checked)
+        cell.update(item: item)
         
         return cell
     }
@@ -31,7 +29,7 @@ class ChecklistsViewController: UITableViewController {
         item.checked = !item.checked
 
         if let cell = tableView.cellForRow(at: indexPath) {
-            cell.update(checked: item.checked)
+            cell.update(item: item)
         }
         
         tableView.deselectRow(at: indexPath, animated: false)
