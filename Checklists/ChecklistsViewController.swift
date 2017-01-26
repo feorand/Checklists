@@ -9,26 +9,29 @@
 import UIKit
 
 class ChecklistsViewController: UITableViewController {
-    
-    let thingsToDo = ["Go", "Stand", "Lay", "Fly"]
+    let checklistItems = ChecklistItem.seed()
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 100
+        return checklistItems.count
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let item = checklistItems[indexPath.row]
+
         let cell = tableView.dequeueReusableCell(withIdentifier: "ChecklistCell")!
-        
         let label = cell.viewWithTag(1000) as! UILabel
-        
-        label.text = thingsToDo[Int(arc4random_uniform(4))]
+        label.text = item.text
+        cell.update(checked: item.checked)
         
         return cell
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let item = checklistItems[indexPath.row]
+        item.checked = !item.checked
+
         if let cell = tableView.cellForRow(at: indexPath) {
-            cell.accessoryType = (cell.accessoryType == .none) ? .checkmark : .none
+            cell.update(checked: item.checked)
         }
         
         tableView.deselectRow(at: indexPath, animated: false)

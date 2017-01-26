@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		7A5B23731E35B85A0092A86B /* ChecklistItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A5B23721E35B85A0092A86B /* ChecklistItem.swift */; };
+		7ABD7F2D1E39A8D20072081D /* UITableViewCell+Update.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7ABD7F2C1E39A8D20072081D /* UITableViewCell+Update.swift */; };
 		7AFA3C471E13AFB400F5DDD7 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AFA3C461E13AFB400F5DDD7 /* AppDelegate.swift */; };
 		7AFA3C491E13AFB400F5DDD7 /* ChecklistsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AFA3C481E13AFB400F5DDD7 /* ChecklistsViewController.swift */; };
 		7AFA3C4C1E13AFB400F5DDD7 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7AFA3C4A1E13AFB400F5DDD7 /* Main.storyboard */; };
@@ -15,6 +17,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		7A5B23721E35B85A0092A86B /* ChecklistItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChecklistItem.swift; sourceTree = "<group>"; };
+		7ABD7F2C1E39A8D20072081D /* UITableViewCell+Update.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UITableViewCell+Update.swift"; sourceTree = "<group>"; };
 		7AFA3C431E13AFB400F5DDD7 /* Checklists.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Checklists.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7AFA3C461E13AFB400F5DDD7 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		7AFA3C481E13AFB400F5DDD7 /* ChecklistsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChecklistsViewController.swift; sourceTree = "<group>"; };
@@ -56,6 +60,8 @@
 			children = (
 				7AFA3C461E13AFB400F5DDD7 /* AppDelegate.swift */,
 				7AFA3C481E13AFB400F5DDD7 /* ChecklistsViewController.swift */,
+				7ABD7F2C1E39A8D20072081D /* UITableViewCell+Update.swift */,
+				7A5B23721E35B85A0092A86B /* ChecklistItem.swift */,
 				7AFA3C4A1E13AFB400F5DDD7 /* Main.storyboard */,
 				7AFA3C4D1E13AFB400F5DDD7 /* Assets.xcassets */,
 				7AFA3C4F1E13AFB400F5DDD7 /* LaunchScreen.storyboard */,
@@ -137,6 +143,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				7AFA3C491E13AFB400F5DDD7 /* ChecklistsViewController.swift in Sources */,
+				7A5B23731E35B85A0092A86B /* ChecklistItem.swift in Sources */,
+				7ABD7F2D1E39A8D20072081D /* UITableViewCell+Update.swift in Sources */,
 				7AFA3C471E13AFB400F5DDD7 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
