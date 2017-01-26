@@ -9,14 +9,14 @@
 import UIKit
 
 class ChecklistsViewController: UITableViewController {
-    let checklistItems = ChecklistItem.seed()
+    var items = ChecklistItem.seed(count: 100)
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return checklistItems.count
+        return items.count
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let item = checklistItems[indexPath.row]
+        let item = items[indexPath.row]
 
         let cell = tableView.dequeueReusableCell(withIdentifier: "ChecklistCell")!
         let label = cell.viewWithTag(1000) as! UILabel
@@ -27,7 +27,7 @@ class ChecklistsViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let item = checklistItems[indexPath.row]
+        let item = items[indexPath.row]
         item.checked = !item.checked
 
         if let cell = tableView.cellForRow(at: indexPath) {

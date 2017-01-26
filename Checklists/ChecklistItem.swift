@@ -10,21 +10,30 @@ import Foundation
 
 class ChecklistItem {
     var text: String
-    var checked: Bool = false
+    var checked: Bool
     
-    init(named text:String) {
+    init(text:String, checked:Bool) {
         self.text = text
+        self.checked = checked
     }
     
-    static func seed() -> [ChecklistItem] {
+    static func getRandom() -> ChecklistItem {
         let thingsToDo = ["Go", "Stand", "Lay", "Fly"]
-        var items = [ChecklistItem]()
+        let thingToDo = thingsToDo[Int(arc4random_uniform(UInt32(thingsToDo.count)))]
+        return ChecklistItem(text: thingToDo, checked: false)
+    }
+    
+    static func seed(items:[ChecklistItem]? = nil, count: Int) -> [ChecklistItem] {
+        let newItem = ChecklistItem.getRandom()
         
-        for _ in 1...100 {
-            let thingToDo = thingsToDo[Int(arc4random_uniform(UInt32(thingsToDo.count)))]
-            items.append(ChecklistItem(named: thingToDo))
+        if let items = items {
+            if items.count < count {
+                return seed(items: items + [newItem], count: count)
+            } else {
+                return items
+            }
+        } else {
+            return seed(items: [newItem], count: count)
         }
-        
-        return items
     }
 }
