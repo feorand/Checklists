@@ -62,7 +62,7 @@
         <!--Add Task-->
         <scene sceneID="wIM-Da-g7O">
             <objects>
-                <tableViewController id="Qz3-cJ-guj" sceneMemberID="viewController">
+                <tableViewController id="Qz3-cJ-guj" customClass="AddItemViewController" customModule="Checklists" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="18" sectionFooterHeight="18" id="2vy-rR-WQN">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -101,8 +101,16 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" title="Add Task" id="qgz-CE-9zG">
-                        <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="o7G-Pt-1bx"/>
-                        <barButtonItem key="rightBarButtonItem" systemItem="done" id="4xE-9Q-kCQ"/>
+                        <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="o7G-Pt-1bx">
+                            <connections>
+                                <action selector="cancelPressed" destination="Qz3-cJ-guj" id="RyN-c3-mEb"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" systemItem="done" id="4xE-9Q-kCQ">
+                            <connections>
+                                <action selector="donePressed" destination="Qz3-cJ-guj" id="aPy-Kh-idc"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="r6S-EV-0GY" userLabel="First Responder" sceneMemberID="firstResponder"/>
