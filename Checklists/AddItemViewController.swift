@@ -25,4 +25,10 @@ extension AddItemViewController {
         print("Done! New task is \(textField.text!)")
         dismiss(animated: true, completion: nil)
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        textField.becomeFirstResponder()
+    }
 }
