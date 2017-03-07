@@ -1,5 +1,5 @@
 //
-//  AddItemViewController.swift
+//  ItemDetailsViewController.swift
 //  Checklists
 //
 //  Created by Pavel Prokofyev on 02.03.17.
@@ -8,11 +8,11 @@
 
 import UIKit
 
-class AddItemViewController: UITableViewController {
+class ItemDetailsViewController: UITableViewController {
     @IBOutlet weak var textField: UITextField!
     @IBOutlet weak var doneButton: UIBarButtonItem!
     
-    weak var delegate: AddItemDelegate?
+    weak var delegate: ItemDetailsViewControllerDelegate?
     weak var passedItem: ChecklistItem?
     
     override func tableView(_ tableView: UITableView, willSelectRowAt indexPath: IndexPath) -> IndexPath? {
@@ -20,17 +20,17 @@ class AddItemViewController: UITableViewController {
     }
 }
 
-extension AddItemViewController {
+extension ItemDetailsViewController {
     @IBAction func cancelPressed() {
-        delegate?.addItemCancel(self)
+        delegate?.itemDetailsViewControllerDidCancel(self)
     }
     
     @IBAction func donePressed() {
         if let passedItem = passedItem {
             passedItem.text = textField.text!
-            delegate?.AddItem(self, withItem: passedItem)
+            delegate?.itemDetailsViewControllerDidFinish(self, withUpdatedItem: passedItem)
         } else {
-            delegate?.addItem(self, withName: textField.text!)
+            delegate?.itemDetailsViewControllerDidFinish(self, withName: textField.text!)
         }
     }
     
@@ -46,12 +46,14 @@ extension AddItemViewController {
         if let passedItem = passedItem {
             title = "Update Item"
             textField.text = passedItem.text
-            doneButton.isEnabled = true
         }
+        
+        doneButton.isEnabled = !textField.text!.isEmpty
     }
+    
 }
 
-extension AddItemViewController: UITextFieldDelegate {
+extension ItemDetailsViewController: UITextFieldDelegate {
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         
         let oldText = textField.text! as NSString
@@ -63,11 +65,11 @@ extension AddItemViewController: UITextFieldDelegate {
     }
 }
 
-protocol AddItemDelegate: class {
+protocol ItemDetailsViewControllerDelegate: class {
     
-    func addItemCancel(_ controller: AddItemViewController)
+    func itemDetailsViewControllerDidCancel(_ controller: ItemDetailsViewController)
     
-    func addItem(_ controller: AddItemViewController, withName name: String)
+    func itemDetailsViewControllerDidFinish(_ controller: ItemDetailsViewController, withName name: String)
     
-    func AddItem(_ controller: AddItemViewController, withItem item: ChecklistItem)
+    func itemDetailsViewControllerDidFinish(_ controller: ItemDetailsViewController, withUpdatedItem item: ChecklistItem)
 }

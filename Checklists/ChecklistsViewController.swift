@@ -51,35 +51,41 @@ extension ChecklistsViewController {
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        func getController() -> ItemDetailsViewController {
+            let navigationController = segue.destination as! UINavigationController
+            let controller = navigationController.topViewController! as! ItemDetailsViewController
+            return controller
+        }
+        
         switch segue.identifier {
         case .some("AddItem"):
-            let navigationController = segue.destination as! UINavigationController
-            let controller = navigationController.topViewController! as! AddItemViewController
-            controller.delegate = self
-        case .some("UpdateItem"):
-            let navigationController = segue.destination as! UINavigationController
-            let controller = navigationController.topViewController! as! AddItemViewController
+            let controller = getController()
             controller.delegate = self
             
+        case .some("UpdateItem"):
+            let controller = getController()
+            controller.delegate = self
             let index = tableView.indexPath(for: sender as! UITableViewCell)!
             controller.passedItem = items[index.row]
+            
         default:
             break
         }
     }
 }
 
-extension ChecklistsViewController: AddItemDelegate {
-    func addItemCancel(_ controller: AddItemViewController) {
+extension ChecklistsViewController: ItemDetailsViewControllerDelegate {
+    func itemDetailsViewControllerDidCancel(_ controller: ItemDetailsViewController) {
         controller.dismiss(animated: true, completion: nil)
     }
     
-    func addItem(_ controller: AddItemViewController, withName name: String) {
+    func itemDetailsViewControllerDidFinish(_ controller: ItemDetailsViewController, withName name: String) {
         addNewItem(withName: name)
+        
         controller.dismiss(animated: true, completion: nil)
     }
     
-    func AddItem(_ controller: AddItemViewController, withItem item: ChecklistItem) {
+    func itemDetailsViewControllerDidFinish(_ controller: ItemDetailsViewController, withUpdatedItem item: ChecklistItem) {
         let index = items.index(of: item)!
         items[index] = item
         tableView.reloadData()
