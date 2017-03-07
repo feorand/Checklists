@@ -11,9 +11,10 @@ import UIKit
 
 extension UITableViewCell {
     func update(item: ChecklistItem) {
-        self.accessoryType = item.checked ? .checkmark : .none
+        let textLabel = self.viewWithTag(1000) as! UILabel
+        textLabel.text = item.text
         
-        let label = self.viewWithTag(1000) as! UILabel
-        label.text = item.text
+        let accessoryLabel = self.viewWithTag(2000) as! UILabel
+        accessoryLabel.text = item.checked ? "✔️" : ""
     }
 }
