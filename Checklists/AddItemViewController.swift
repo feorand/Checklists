@@ -13,6 +13,7 @@ class AddItemViewController: UITableViewController {
     @IBOutlet weak var doneButton: UIBarButtonItem!
     
     weak var delegate: AddItemDelegate?
+    weak var passedItem: ChecklistItem?
     
     override func tableView(_ tableView: UITableView, willSelectRowAt indexPath: IndexPath) -> IndexPath? {
         return nil
@@ -32,6 +33,16 @@ extension AddItemViewController {
         super.viewWillAppear(animated)
         
         textField.becomeFirstResponder()
+    }
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        if let passedItem = passedItem {
+            title = "Update Item"
+            textField.text = passedItem.text
+            doneButton.isEnabled = true
+        }
     }
 }
 

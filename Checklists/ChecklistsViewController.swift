@@ -53,10 +53,20 @@ extension ChecklistsViewController {
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "AddItem" {
+        switch segue.identifier {
+        case .some("AddItem"):
             let navigationController = segue.destination as! UINavigationController
             let controller = navigationController.topViewController! as! AddItemViewController
             controller.delegate = self
+        case .some("UpdateItem"):
+            let navigationController = segue.destination as! UINavigationController
+            let controller = navigationController.topViewController! as! AddItemViewController
+            controller.delegate = self
+            
+            let index = tableView.indexPath(for: sender as! UITableViewCell)!
+            controller.passedItem = items[index.row]
+        default:
+            return
         }
     }
 }

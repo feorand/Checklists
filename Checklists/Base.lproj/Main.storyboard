@@ -52,6 +52,9 @@
                                         <constraint firstAttribute="bottomMargin" secondItem="JeJ-rI-X3z" secondAttribute="bottom" id="tIp-pf-tWL"/>
                                     </constraints>
                                 </tableViewCellContentView>
+                                <connections>
+                                    <segue destination="9pZ-cJ-IaW" kind="presentation" identifier="UpdateItem" trigger="accessoryAction" id="A4U-uz-2mb"/>
+                                </connections>
                             </tableViewCell>
                         </prototypes>
                         <connections>
@@ -174,4 +177,7 @@
             <point key="canvasLocation" x="1996.875" y="99.295774647887328"/>
         </scene>
     </scenes>
+    <inferredMetricsTieBreakers>
+        <segue reference="A4U-uz-2mb"/>
+    </inferredMetricsTieBreakers>
 </document>
