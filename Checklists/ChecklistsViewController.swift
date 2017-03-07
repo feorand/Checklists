@@ -11,25 +11,13 @@ import UIKit
 class ChecklistsViewController: UITableViewController {
     var items = ChecklistItem.seed(count: 100)
     
-    @IBAction func addNewItem() {
-        let itemIndex = 0
-        
-        let newItem = ChecklistItem(text: "New Item", checked: false)
-        items.insert(newItem, at: itemIndex)
-        
-        let indexPaths = [IndexPath(row: itemIndex, section: 0)]
-        tableView.insertRows(at: indexPaths, with: .automatic)
-    }
-}
-
-extension ChecklistsViewController {
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return items.count
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let item = items[indexPath.row]
-
+        
         let cell = tableView.dequeueReusableCell(withIdentifier: "ChecklistCell")!
         cell.update(item: item)
         
@@ -38,8 +26,8 @@ extension ChecklistsViewController {
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let item = items[indexPath.row]
-        item.checked = !item.checked 
-
+        item.checked = !item.checked
+        
         if let cell = tableView.cellForRow(at: indexPath) {
             cell.update(item: item)
         }
@@ -50,5 +38,36 @@ extension ChecklistsViewController {
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
         items.remove(at: indexPath.row)
         tableView.deleteRows(at: [indexPath], with: .automatic)
+    }
+}
+
+extension ChecklistsViewController {
+    func addNewItem(withName name:String) {
+        let itemIndex = 0
+        
+        let newItem = ChecklistItem(text: name, checked: false)
+        items.insert(newItem, at: itemIndex)
+        
+        let indexPaths = [IndexPath(row: itemIndex, section: 0)]
+        tableView.insertRows(at: indexPaths, with: .automatic)
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "AddItem" {
+            let navigationController = segue.destination as! UINavigationController
+            let controller = navigationController.topViewController! as! AddItemViewController
+            controller.delegate = self
+        }
+    }
+}
+
+extension ChecklistsViewController: AddItemDelegate {
+    func addItemCancel(_ controller: AddItemViewController) {
+        controller.dismiss(animated: true, completion: nil)
+    }
+    
+    func addItem(_ controller: AddItemViewController, withName name: String) {
+        addNewItem(withName: name)
+        controller.dismiss(animated: true, completion: nil)
     }
 }

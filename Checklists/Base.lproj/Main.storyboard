@@ -50,7 +50,7 @@
                     <navigationItem key="navigationItem" title="Checklist" id="QXW-sd-p09">
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="I3n-Mt-dsZ">
                             <connections>
-                                <segue destination="9pZ-cJ-IaW" kind="presentation" id="yKl-xa-x0L"/>
+                                <segue destination="9pZ-cJ-IaW" kind="presentation" identifier="AddItem" id="yKl-xa-x0L"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
