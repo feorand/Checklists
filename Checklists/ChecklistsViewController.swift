@@ -42,9 +42,7 @@ class ChecklistsViewController: UITableViewController {
 }
 
 extension ChecklistsViewController {
-    func addNewItem(withName name:String) {
-        let itemIndex = 0
-        
+    func addNewItem(withName name:String, at itemIndex:Int = 0) {
         let newItem = ChecklistItem(text: name, checked: false)
         items.insert(newItem, at: itemIndex)
         
@@ -66,7 +64,7 @@ extension ChecklistsViewController {
             let index = tableView.indexPath(for: sender as! UITableViewCell)!
             controller.passedItem = items[index.row]
         default:
-            return
+            break
         }
     }
 }
@@ -78,6 +76,14 @@ extension ChecklistsViewController: AddItemDelegate {
     
     func addItem(_ controller: AddItemViewController, withName name: String) {
         addNewItem(withName: name)
+        controller.dismiss(animated: true, completion: nil)
+    }
+    
+    func AddItem(_ controller: AddItemViewController, withItem item: ChecklistItem) {
+        let index = items.index(of: item)!
+        items[index] = item
+        tableView.reloadData()
+        
         controller.dismiss(animated: true, completion: nil)
     }
 }

@@ -26,7 +26,12 @@ extension AddItemViewController {
     }
     
     @IBAction func donePressed() {
-        delegate?.addItem(self, withName: textField.text!)
+        if let passedItem = passedItem {
+            passedItem.text = textField.text!
+            delegate?.AddItem(self, withItem: passedItem)
+        } else {
+            delegate?.addItem(self, withName: textField.text!)
+        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -63,4 +68,6 @@ protocol AddItemDelegate: class {
     func addItemCancel(_ controller: AddItemViewController)
     
     func addItem(_ controller: AddItemViewController, withName name: String)
+    
+    func AddItem(_ controller: AddItemViewController, withItem item: ChecklistItem)
 }
