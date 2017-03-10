@@ -11,6 +11,12 @@ import UIKit
 class ChecklistsViewController: UITableViewController {
     var items = ChecklistItem.seed(count: 100)
     
+    required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+        
+        print(getStorageFileURL())
+    }
+    
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return items.count
     }
@@ -42,6 +48,14 @@ class ChecklistsViewController: UITableViewController {
 }
 
 extension ChecklistsViewController {
+    func getDocumentsDirectory()-> URL {
+        return try! FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: false)
+    }
+    
+    func getStorageFileURL() -> URL {
+        return getDocumentsDirectory().appendingPathComponent("Checklists.plist")
+    }
+    
     func addNewItem(withName name:String, at itemIndex:Int = 0) {
         let newItem = ChecklistItem(text: name, checked: false)
         items.insert(newItem, at: itemIndex)
