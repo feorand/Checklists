@@ -9,12 +9,19 @@
 import Foundation
 
 class ChecklistItem: NSObject {
+
     var text: String
     var checked: Bool
-    
+
     init(text:String, checked:Bool) {
         self.text = text
         self.checked = checked
+    }
+
+    required init?(coder aDecoder: NSCoder) {
+        text = ""
+        checked = false
+        super.init()
     }
     
     static func getRandom() -> ChecklistItem {
@@ -35,5 +42,12 @@ class ChecklistItem: NSObject {
         } else {
             return seed(items: [newItem], count: count)
         }
+    }
+}
+
+extension ChecklistItem: NSCoding {
+    public func encode(with aCoder: NSCoder) {
+        aCoder.encode(text, forKey: "Text")
+        aCoder.encode(checked, forKey: "Checked")
     }
 }

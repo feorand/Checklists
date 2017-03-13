@@ -13,7 +13,7 @@ class ChecklistsViewController: UITableViewController {
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
-        
+
         print(getStorageFileURL())
     }
     
@@ -36,6 +36,7 @@ class ChecklistsViewController: UITableViewController {
         
         if let cell = tableView.cellForRow(at: indexPath) {
             cell.update(item: item)
+            save(items: items)
         }
         
         tableView.deselectRow(at: indexPath, animated: false)
@@ -43,6 +44,7 @@ class ChecklistsViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
         items.remove(at: indexPath.row)
+        save(items: items)
         tableView.deleteRows(at: [indexPath], with: .automatic)
     }
 }
@@ -62,6 +64,14 @@ extension ChecklistsViewController {
         
         let indexPaths = [IndexPath(row: itemIndex, section: 0)]
         tableView.insertRows(at: indexPaths, with: .automatic)
+    }
+    
+    func save(items: [ChecklistItem]) {
+        let data = NSMutableData()
+        let archiver = NSKeyedArchiver(forWritingWith: data)
+        archiver.encode(items, forKey: "ChecklistItems")
+        archiver.finishEncoding()
+        data.write(to: getStorageFileURL(), atomically: true)
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -95,13 +105,15 @@ extension ChecklistsViewController: ItemDetailsViewControllerDelegate {
     
     func itemDetailsViewControllerDidFinish(_ controller: ItemDetailsViewController, withName name: String) {
         addNewItem(withName: name)
-        
+        save(items: items)
+
         controller.dismiss(animated: true, completion: nil)
     }
     
     func itemDetailsViewControllerDidFinish(_ controller: ItemDetailsViewController, withUpdatedItem item: ChecklistItem) {
         let index = items.index(of: item)!
         items[index] = item
+        save(items: items)
         tableView.reloadData()
         
         controller.dismiss(animated: true, completion: nil)
