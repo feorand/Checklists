@@ -9,12 +9,12 @@
 import UIKit
 
 class ChecklistsViewController: UITableViewController {
-    var items = ChecklistItem.seed(count: 100)
+    var items: [ChecklistItem]
     
     required init?(coder aDecoder: NSCoder) {
+        items = [ChecklistItem]()
         super.init(coder: aDecoder)
-
-        print(getStorageFileURL())
+        items = loadItems(from: getStorageFileURL())
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -36,7 +36,7 @@ class ChecklistsViewController: UITableViewController {
         
         if let cell = tableView.cellForRow(at: indexPath) {
             cell.update(item: item)
-            save(items: items)
+            save(items: items, to: getStorageFileURL())
         }
         
         tableView.deselectRow(at: indexPath, animated: false)
@@ -44,7 +44,7 @@ class ChecklistsViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
         items.remove(at: indexPath.row)
-        save(items: items)
+        save(items: items, to: getStorageFileURL())
         tableView.deleteRows(at: [indexPath], with: .automatic)
     }
 }
@@ -66,12 +66,23 @@ extension ChecklistsViewController {
         tableView.insertRows(at: indexPaths, with: .automatic)
     }
     
-    func save(items: [ChecklistItem]) {
+    func save(items: [ChecklistItem], to storageURL: URL) {
         let data = NSMutableData()
         let archiver = NSKeyedArchiver(forWritingWith: data)
         archiver.encode(items, forKey: "ChecklistItems")
         archiver.finishEncoding()
-        data.write(to: getStorageFileURL(), atomically: true)
+        data.write(to: storageURL, atomically: true)
+    }
+    
+    func loadItems(from storageURL: URL) -> [ChecklistItem] {
+        if let data = try? Data(contentsOf: storageURL) {
+            let unarchiver = NSKeyedUnarchiver(forReadingWith: data)
+            if let decodedItems = unarchiver.decodeObject(forKey: "ChecklistItems") as? [ChecklistItem] {
+                return decodedItems
+            }
+        }
+        
+        return []
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -105,7 +116,7 @@ extension ChecklistsViewController: ItemDetailsViewControllerDelegate {
     
     func itemDetailsViewControllerDidFinish(_ controller: ItemDetailsViewController, withName name: String) {
         addNewItem(withName: name)
-        save(items: items)
+        save(items: items, to: getStorageFileURL())
 
         controller.dismiss(animated: true, completion: nil)
     }
@@ -113,7 +124,7 @@ extension ChecklistsViewController: ItemDetailsViewControllerDelegate {
     func itemDetailsViewControllerDidFinish(_ controller: ItemDetailsViewController, withUpdatedItem item: ChecklistItem) {
         let index = items.index(of: item)!
         items[index] = item
-        save(items: items)
+        save(items: items, to: getStorageFileURL())
         tableView.reloadData()
         
         controller.dismiss(animated: true, completion: nil)

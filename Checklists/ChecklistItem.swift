@@ -19,8 +19,8 @@ class ChecklistItem: NSObject {
     }
 
     required init?(coder aDecoder: NSCoder) {
-        text = ""
-        checked = false
+        text = aDecoder.decodeObject(forKey: "Text") as! String
+        checked = aDecoder.decodeBool(forKey: "Checked")
         super.init()
     }
     
