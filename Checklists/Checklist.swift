@@ -11,4 +11,8 @@ import Foundation
 class Checklist {
     var name: String = ""
     var items: [ChecklistItem] = []
+    
+    init(named name:String) {
+        self.name = name
+    }
 }

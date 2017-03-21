@@ -9,16 +9,19 @@
 import UIKit
 
 class ChecklistsViewController: UITableViewController {
+    
+    var checklists = ChecklistsViewController.Seed(count: 10)
+    
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // #warning Incomplete implementation, return the number of rows
-        return 0
+        return checklists.count
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "reuseIdentifier", for: indexPath)
+        let cell = tableView.dequeueReusableCell(withIdentifier: "ChecklistCell", for: indexPath)
 
-        //Configure the cell...
-
+        let nameLabel = cell.viewWithTag(1000) as! UILabel
+        nameLabel.text = checklists[indexPath.row].name
+        
         return cell
     }
 
@@ -38,23 +41,12 @@ class ChecklistsViewController: UITableViewController {
 }
 
 extension ChecklistsViewController {
-    static func getRandom() -> ChecklistItem {
-        let thingsToDo = ["Go", "Stand", "Lay", "Fly"]
-        let thingToDo = thingsToDo[Int(arc4random_uniform(UInt32(thingsToDo.count)))]
-        return ChecklistItem(text: thingToDo, checked: false)
-    }
-    
-    static func seed(items:[ChecklistItem]? = nil, count: Int) -> [ChecklistItem] {
-        let newItem = ChecklistsViewController.getRandom()
-        
-        if let items = items {
-            if items.count < count {
-                return seed(items: items + [newItem], count: count)
-            } else {
-                return items
-            }
-        } else {
-            return seed(items: [newItem], count: count)
+    static func Seed(count: Int) -> [Checklist] {
+        var items = [Checklist]()
+        for i in 1..<count {
+            items.append(Checklist(named: "Checklist\(i)"))
         }
+        
+        return items
     }
 }
