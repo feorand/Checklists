@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ChecklistsViewController: UITableViewController {
+class ChecklistDetailViewController: UITableViewController {
     var items: [ChecklistItem]
     
     required init?(coder aDecoder: NSCoder) {
@@ -49,7 +49,7 @@ class ChecklistsViewController: UITableViewController {
     }
 }
 
-extension ChecklistsViewController {
+extension ChecklistDetailViewController {
     func getDocumentsDirectory()-> URL {
         return try! FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: false)
     }
@@ -86,9 +86,9 @@ extension ChecklistsViewController {
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        func getController() -> ItemDetailsViewController {
+        func getController() -> ItemDetailViewController {
             let navigationController = segue.destination as! UINavigationController
-            let controller = navigationController.topViewController! as! ItemDetailsViewController
+            let controller = navigationController.topViewController! as! ItemDetailViewController
             return controller
         }
         
@@ -109,19 +109,19 @@ extension ChecklistsViewController {
     }
 }
 
-extension ChecklistsViewController: ItemDetailsViewControllerDelegate {
-    func itemDetailsViewControllerDidCancel(_ controller: ItemDetailsViewController) {
+extension ChecklistDetailViewController: ItemDetailViewControllerDelegate {
+    func ItemDetailViewControllerDidCancel(_ controller: ItemDetailViewController) {
         controller.dismiss(animated: true, completion: nil)
     }
     
-    func itemDetailsViewControllerDidFinish(_ controller: ItemDetailsViewController, withName name: String) {
+    func ItemDetailViewControllerDidFinish(_ controller: ItemDetailViewController, withName name: String) {
         addNewItem(withName: name)
         save(items: items, to: getStorageFileURL())
 
         controller.dismiss(animated: true, completion: nil)
     }
     
-    func itemDetailsViewControllerDidFinish(_ controller: ItemDetailsViewController, withUpdatedItem item: ChecklistItem) {
+    func ItemDetailViewControllerDidFinish(_ controller: ItemDetailViewController, withUpdatedItem item: ChecklistItem) {
         let index = items.index(of: item)!
         items[index] = item
         save(items: items, to: getStorageFileURL())

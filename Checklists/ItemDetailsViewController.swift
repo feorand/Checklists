@@ -1,5 +1,5 @@
 //
-//  ItemDetailsViewController.swift
+//  ItemDetailViewController.swift
 //  Checklists
 //
 //  Created by Pavel Prokofyev on 02.03.17.
@@ -8,11 +8,11 @@
 
 import UIKit
 
-class ItemDetailsViewController: UITableViewController {
+class ItemDetailViewController: UITableViewController {
     @IBOutlet weak var textField: UITextField!
     @IBOutlet weak var doneButton: UIBarButtonItem!
     
-    weak var delegate: ItemDetailsViewControllerDelegate?
+    weak var delegate: ItemDetailViewControllerDelegate?
     weak var passedItem: ChecklistItem?
     
     override func tableView(_ tableView: UITableView, willSelectRowAt indexPath: IndexPath) -> IndexPath? {
@@ -20,17 +20,17 @@ class ItemDetailsViewController: UITableViewController {
     }
 }
 
-extension ItemDetailsViewController {
+extension ItemDetailViewController {
     @IBAction func cancelPressed() {
-        delegate?.itemDetailsViewControllerDidCancel(self)
+        delegate?.ItemDetailViewControllerDidCancel(self)
     }
     
     @IBAction func donePressed() {
         if let passedItem = passedItem {
             passedItem.text = textField.text!
-            delegate?.itemDetailsViewControllerDidFinish(self, withUpdatedItem: passedItem)
+            delegate?.ItemDetailViewControllerDidFinish(self, withUpdatedItem: passedItem)
         } else {
-            delegate?.itemDetailsViewControllerDidFinish(self, withName: textField.text!)
+            delegate?.ItemDetailViewControllerDidFinish(self, withName: textField.text!)
         }
     }
     
@@ -53,7 +53,7 @@ extension ItemDetailsViewController {
     
 }
 
-extension ItemDetailsViewController: UITextFieldDelegate {
+extension ItemDetailViewController: UITextFieldDelegate {
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         
         let oldText = textField.text! as NSString
@@ -65,11 +65,11 @@ extension ItemDetailsViewController: UITextFieldDelegate {
     }
 }
 
-protocol ItemDetailsViewControllerDelegate: class {
+protocol ItemDetailViewControllerDelegate: class {
     
-    func itemDetailsViewControllerDidCancel(_ controller: ItemDetailsViewController)
+    func ItemDetailViewControllerDidCancel(_ controller: ItemDetailViewController)
     
-    func itemDetailsViewControllerDidFinish(_ controller: ItemDetailsViewController, withName name: String)
+    func ItemDetailViewControllerDidFinish(_ controller: ItemDetailViewController, withName name: String)
     
-    func itemDetailsViewControllerDidFinish(_ controller: ItemDetailsViewController, withUpdatedItem item: ChecklistItem)
+    func ItemDetailViewControllerDidFinish(_ controller: ItemDetailViewController, withUpdatedItem item: ChecklistItem)
 }
