@@ -23,26 +23,6 @@ class ChecklistItem: NSObject {
         checked = aDecoder.decodeBool(forKey: "Checked")
         super.init()
     }
-    
-    static func getRandom() -> ChecklistItem {
-        let thingsToDo = ["Go", "Stand", "Lay", "Fly"]
-        let thingToDo = thingsToDo[Int(arc4random_uniform(UInt32(thingsToDo.count)))]
-        return ChecklistItem(text: thingToDo, checked: false)
-    }
-    
-    static func seed(items:[ChecklistItem]? = nil, count: Int) -> [ChecklistItem] {
-        let newItem = ChecklistItem.getRandom()
-        
-        if let items = items {
-            if items.count < count {
-                return seed(items: items + [newItem], count: count)
-            } else {
-                return items
-            }
-        } else {
-            return seed(items: [newItem], count: count)
-        }
-    }
 }
 
 extension ChecklistItem: NSCoding {
