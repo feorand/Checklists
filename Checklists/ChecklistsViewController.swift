@@ -17,10 +17,9 @@ class ChecklistsViewController: UITableViewController {
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "ChecklistCell", for: indexPath)
-
-        let nameLabel = cell.viewWithTag(1000) as! UILabel
-        nameLabel.text = checklists[indexPath.row].name
+        let cell = ChecklistsViewController.makeCell(for: tableView, withIndentifier: "ChecklistCell")
+        cell.textLabel!.text = checklists[indexPath.row].name
+        cell.accessoryType = .detailDisclosureButton
         
         return cell
     }
@@ -33,10 +32,9 @@ class ChecklistsViewController: UITableViewController {
             // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
         }    
     }
-
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+    
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        performSegue(withIdentifier: "ShowChecklist", sender: checklists[indexPath.row])
     }
 }
 
@@ -48,5 +46,21 @@ extension ChecklistsViewController {
         }
         
         return items
+    }
+    
+    static func makeCell(for tableView: UITableView, withIndentifier identifier: String) -> UITableViewCell {
+        
+        if let cell = tableView.dequeueReusableCell(withIdentifier: identifier) {
+            return cell
+        } else {
+            return UITableViewCell(style: .default, reuseIdentifier: identifier)
+        }
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "ShowChecklist" {
+            let controller = segue.destination as! ChecklistDetailViewController
+            controller.checklist = sender as! Checklist
+        }
     }
 }

@@ -9,20 +9,18 @@
 import UIKit
 
 class ChecklistDetailViewController: UITableViewController {
-    var items: [ChecklistItem]
+    var checklist: Checklist!
     
     required init?(coder aDecoder: NSCoder) {
-        items = [ChecklistItem]()
         super.init(coder: aDecoder)
-        items = loadItems(from: getStorageFileURL())
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return items.count
+        return checklist.items.count
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let item = items[indexPath.row]
+        let item = checklist.items[indexPath.row]
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "ChecklistCell")!
         cell.update(item: item)
@@ -31,20 +29,20 @@ class ChecklistDetailViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let item = items[indexPath.row]
+        let item = checklist.items[indexPath.row]
         item.checked = !item.checked
         
         if let cell = tableView.cellForRow(at: indexPath) {
             cell.update(item: item)
-            save(items: items, to: getStorageFileURL())
+            save(items: checklist.items, to: getStorageFileURL())
         }
         
         tableView.deselectRow(at: indexPath, animated: false)
     }
     
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
-        items.remove(at: indexPath.row)
-        save(items: items, to: getStorageFileURL())
+        checklist.items.remove(at: indexPath.row)
+        save(items: checklist.items, to: getStorageFileURL())
         tableView.deleteRows(at: [indexPath], with: .automatic)
     }
 }
@@ -60,7 +58,7 @@ extension ChecklistDetailViewController {
     
     func addNewItem(withName name:String, at itemIndex:Int = 0) {
         let newItem = ChecklistItem(text: name, checked: false)
-        items.insert(newItem, at: itemIndex)
+        checklist.items.insert(newItem, at: itemIndex)
         
         let indexPaths = [IndexPath(row: itemIndex, section: 0)]
         tableView.insertRows(at: indexPaths, with: .automatic)
@@ -101,7 +99,7 @@ extension ChecklistDetailViewController {
             let controller = getController()
             controller.delegate = self
             let index = tableView.indexPath(for: sender as! UITableViewCell)!
-            controller.passedItem = items[index.row]
+            controller.passedItem = checklist.items[index.row]
             
         default:
             break
@@ -116,17 +114,24 @@ extension ChecklistDetailViewController: ItemDetailViewControllerDelegate {
     
     func ItemDetailViewControllerDidFinish(_ controller: ItemDetailViewController, withName name: String) {
         addNewItem(withName: name)
-        save(items: items, to: getStorageFileURL())
+        save(items: checklist.items, to: getStorageFileURL())
 
         controller.dismiss(animated: true, completion: nil)
     }
     
     func ItemDetailViewControllerDidFinish(_ controller: ItemDetailViewController, withUpdatedItem item: ChecklistItem) {
-        let index = items.index(of: item)!
-        items[index] = item
-        save(items: items, to: getStorageFileURL())
+        let index = checklist.items.index(of: item)!
+        checklist.items[index] = item
+        save(items: checklist.items, to: getStorageFileURL())
         tableView.reloadData()
         
         controller.dismiss(animated: true, completion: nil)
+    }
+}
+
+extension ChecklistDetailViewController {
+    override func viewDidLoad() {
+        checklist.items = loadItems(from: getStorageFileURL())
+        self.navigationItem.title = checklist.name
     }
 }
