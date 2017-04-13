@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ChecklistDetailViewController: UITableViewController {
+class ChecklistItemsViewController: UITableViewController {
     var checklist: Checklist!
     
     required init?(coder aDecoder: NSCoder) {
@@ -47,7 +47,7 @@ class ChecklistDetailViewController: UITableViewController {
     }
 }
 
-extension ChecklistDetailViewController {
+extension ChecklistItemsViewController {
     func getDocumentsDirectory()-> URL {
         return try! FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: false)
     }
@@ -107,7 +107,7 @@ extension ChecklistDetailViewController {
     }
 }
 
-extension ChecklistDetailViewController: ItemDetailViewControllerDelegate {
+extension ChecklistItemsViewController: ItemDetailViewControllerDelegate {
     func ItemDetailViewControllerDidCancel(_ controller: ItemDetailViewController) {
         controller.dismiss(animated: true, completion: nil)
     }
@@ -129,7 +129,7 @@ extension ChecklistDetailViewController: ItemDetailViewControllerDelegate {
     }
 }
 
-extension ChecklistDetailViewController {
+extension ChecklistItemsViewController {
     override func viewDidLoad() {
         checklist.items = loadItems(from: getStorageFileURL())
         self.navigationItem.title = checklist.name

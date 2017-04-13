@@ -59,7 +59,7 @@ extension ChecklistsViewController {
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "ShowChecklist" {
-            let controller = segue.destination as! ChecklistDetailViewController
+            let controller = segue.destination as! ChecklistItemsViewController
             controller.checklist = sender as! Checklist
         }
     }
