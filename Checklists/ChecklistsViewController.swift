@@ -64,3 +64,13 @@ extension ChecklistsViewController {
         }
     }
 }
+
+extension ChecklistsViewController: ChecklistDetailsViewControllerDelegate {
+    func checklistDetailsViewControllerDidCancel(_ controller: UITableViewController) {
+        return
+    }
+    
+    func checklistDetailViewControllerDidFinish(_ controller: UITableViewController, withName name: String) {
+        return
+    }
+}
