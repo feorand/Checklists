@@ -73,4 +73,8 @@ extension ChecklistsViewController: ChecklistDetailsViewControllerDelegate {
     func checklistDetailViewControllerDidFinish(_ controller: UITableViewController, withName name: String) {
         return
     }
+    
+    func checklistDetailViewControllerDidFinish(_ controller: UITableViewController, withUpdatedItem item: Checklist) {
+        return
+    }
 }

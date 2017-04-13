@@ -10,6 +10,7 @@ import UIKit
 
 class ChecklistDetailsViewController: UITableViewController {
 
+    @IBOutlet weak var textInput: UITextField!
     var delegate: ChecklistDetailsViewControllerDelegate?
     
     override func numberOfSections(in tableView: UITableView) -> Int {
@@ -23,7 +24,14 @@ class ChecklistDetailsViewController: UITableViewController {
     }
 }
 
+extension ChecklistDetailsViewController {
+    @IBAction func CancelPressed() {
+        delegate?.checklistDetailsViewControllerDidCancel(self)
+    }
+}
+
 protocol ChecklistDetailsViewControllerDelegate {
     func checklistDetailsViewControllerDidCancel(_ controller: UITableViewController)
     func checklistDetailViewControllerDidFinish(_ controller: UITableViewController, withName name:String)
+    func checklistDetailViewControllerDidFinish(_ controller: UITableViewController, withUpdatedItem item: Checklist)
 }
