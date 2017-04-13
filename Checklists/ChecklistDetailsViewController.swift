@@ -11,7 +11,14 @@ import UIKit
 class ChecklistDetailsViewController: UITableViewController {
 
     @IBOutlet weak var textInput: UITextField!
+    @IBOutlet weak var doneButton: UIBarButtonItem!
+    
     var delegate: ChecklistDetailsViewControllerDelegate?
+    var checklist: Checklist?
+    
+    override func viewDidLoad() {
+        textInput.becomeFirstResponder()
+    }
     
     override func numberOfSections(in tableView: UITableView) -> Int {
         // #warning Incomplete implementation, return the number of sections
@@ -20,13 +27,33 @@ class ChecklistDetailsViewController: UITableViewController {
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        return 0
+        return 1
     }
 }
 
 extension ChecklistDetailsViewController {
     @IBAction func CancelPressed() {
         delegate?.checklistDetailsViewControllerDidCancel(self)
+    }
+    
+    @IBAction func DonePressed() {
+        let name = textInput.text!
+        
+        if let checklist = checklist {
+            checklist.name = textInput.text!
+            delegate?.checklistDetailViewControllerDidFinish(self, withUpdatedItem: checklist)
+        } else {
+            delegate?.checklistDetailViewControllerDidFinish(self, withName: name)
+        }
+    }
+}
+
+extension ChecklistDetailsViewController: UITextFieldDelegate {
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        let text = (textField.text! + string) as NSString
+        self.doneButton.isEnabled = (text.length > 0)
+        
+        return true
     }
 }
 
