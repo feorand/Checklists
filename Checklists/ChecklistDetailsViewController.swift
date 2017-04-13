@@ -16,18 +16,21 @@ class ChecklistDetailsViewController: UITableViewController {
     var delegate: ChecklistDetailsViewControllerDelegate?
     var checklist: Checklist?
     
-    override func viewDidLoad() {
-        textInput.becomeFirstResponder()
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        self.textInput.becomeFirstResponder()
     }
     
-    override func numberOfSections(in tableView: UITableView) -> Int {
-        // #warning Incomplete implementation, return the number of sections
-        return 0
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        textInput.delegate = self
+        self.navigationItem.title = (checklist == nil) ? "New Checklist" : "Edit Checklist"
     }
-
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // #warning Incomplete implementation, return the number of rows
-        return 1
+    
+    override func tableView(_ tableView: UITableView, willSelectRowAt indexPath: IndexPath) -> IndexPath? {
+        return nil
     }
 }
 
@@ -50,7 +53,9 @@ extension ChecklistDetailsViewController {
 
 extension ChecklistDetailsViewController: UITextFieldDelegate {
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-        let text = (textField.text! + string) as NSString
+        
+        let textNsString = textField.text! as NSString
+        let text = textNsString.replacingCharacters(in: range, with: string) as NSString
         self.doneButton.isEnabled = (text.length > 0)
         
         return true
