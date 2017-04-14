@@ -12,6 +12,10 @@ class ChecklistsViewController: UITableViewController {
     
     var checklists = Checklist.Seed(count: 10)
     
+    required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+    }
+    
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return checklists.count
     }
