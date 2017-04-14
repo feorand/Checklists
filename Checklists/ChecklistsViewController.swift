@@ -36,6 +36,10 @@ class ChecklistsViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         performSegue(withIdentifier: "ShowChecklist", sender: checklists[indexPath.row])
     }
+    
+    override func tableView(_ tableView: UITableView, accessoryButtonTappedForRowWith indexPath: IndexPath) {
+        performSegue(withIdentifier: "EditChecklist", sender: checklists[indexPath.row])
+    }
 }
 
 extension ChecklistsViewController {
@@ -58,23 +62,39 @@ extension ChecklistsViewController {
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "ShowChecklist" {
+        switch segue.identifier! {
+        case "ShowChecklist":
             let controller = segue.destination as! ChecklistItemsViewController
-            controller.checklist = sender as! Checklist
+            controller.checklist = sender as? Checklist
+        case "NewChecklist", "EditChecklist":
+            let navController = segue.destination as! UINavigationController
+            let controller = navController.topViewController! as! ChecklistDetailsViewController
+            controller.checklist = sender as? Checklist
+            controller.delegate = self
+        default:
+            print("Checklists - Empty Segue")
         }
     }
 }
 
 extension ChecklistsViewController: ChecklistDetailsViewControllerDelegate {
     func checklistDetailsViewControllerDidCancel(_ controller: UITableViewController) {
-        return
+        controller.dismiss(animated: true, completion: nil)
     }
     
     func checklistDetailViewControllerDidFinish(_ controller: UITableViewController, withName name: String) {
-        return
+        controller.dismiss(animated: true, completion: nil)
+        
+        let newList = Checklist(named: name)
+        checklists.append(newList)
+        
+        let indexPath = IndexPath(row: checklists.count, section: 0)
+        tableView.insertRows(at: [indexPath], with: .automatic)
     }
     
     func checklistDetailViewControllerDidFinish(_ controller: UITableViewController, withUpdatedItem item: Checklist) {
-        return
+        controller.dismiss(animated: true, completion: nil)
+        
+        tableView.reloadData()
     }
 }
