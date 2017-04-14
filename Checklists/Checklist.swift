@@ -8,12 +8,18 @@
 
 import Foundation
 
-class Checklist {
+class Checklist: NSObject, NSCoding {
     var name: String = ""
     var items: [ChecklistItem] = []
     
     init(named name:String) {
         self.name = name
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        self.name = aDecoder.decodeObject(forKey: "Name") as! String
+        self.items = aDecoder.decodeObject(forKey: "Items") as! [ChecklistItem]
+        super.init()
     }
     
     static func Seed(count: Int) -> [Checklist] {
@@ -27,5 +33,10 @@ class Checklist {
         }
         
         return items
+    }
+    
+    func encode(with aCoder: NSCoder) {
+        aCoder.encode(name, forKey: "Name")
+        aCoder.encode(items, forKey: "Items")
     }
 }

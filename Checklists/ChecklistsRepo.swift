@@ -17,8 +17,20 @@ class ChecklistRepo {
         return url
     }
     
-    static func load() -> [Checklist]{
+    static func save(checklists: [Checklist]) {
         let storageUrl = getStorageFileURL()
+        
+        let data = NSMutableData()
+        let archiver = NSKeyedArchiver(forWritingWith: data)
+        
+        archiver.encode(checklists, forKey: "Checklists")
+        archiver.finishEncoding()
+        
+        data.write(to: storageUrl, atomically: true)
+    }
+    
+    static func load() -> [Checklist]{
+        _ = getStorageFileURL()
         return [Checklist]()
     }
 }

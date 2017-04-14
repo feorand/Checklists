@@ -34,6 +34,7 @@ class ChecklistsViewController: UITableViewController {
         if editingStyle == .delete {
             checklists.remove(at: indexPath.row)
             tableView.deleteRows(at: [indexPath], with: .fade)
+            ChecklistRepo.save(checklists: checklists)
         }
     }
     
@@ -53,10 +54,7 @@ class ChecklistsViewController: UITableViewController {
 }
 
 extension ChecklistsViewController {
-
-    
     static func makeCell(for tableView: UITableView, withIndentifier identifier: String) -> UITableViewCell {
-        
         if let cell = tableView.dequeueReusableCell(withIdentifier: identifier) {
             return cell
         } else {
@@ -91,6 +89,7 @@ extension ChecklistsViewController: ChecklistDetailsViewControllerDelegate {
         let insertIndex = checklists.count
         let newList = Checklist(named: name)
         checklists.insert(newList, at: 0)
+        ChecklistRepo.save(checklists: checklists)
         
         let indexPath = IndexPath(row: insertIndex, section: 0)
         tableView.insertRows(at: [indexPath], with: .automatic)
@@ -99,6 +98,8 @@ extension ChecklistsViewController: ChecklistDetailsViewControllerDelegate {
     
     func checklistDetailViewControllerDidFinish(_ controller: UITableViewController, withUpdatedItem item: Checklist) {
         controller.dismiss(animated: true, completion: nil)
+        
+        ChecklistRepo.save(checklists: checklists)
         
         tableView.reloadData()
     }
