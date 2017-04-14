@@ -85,11 +85,13 @@ extension ChecklistsViewController: ChecklistDetailsViewControllerDelegate {
     func checklistDetailViewControllerDidFinish(_ controller: UITableViewController, withName name: String) {
         controller.dismiss(animated: true, completion: nil)
         
+        let insertIndex = checklists.count
         let newList = Checklist(named: name)
-        checklists.append(newList)
+        checklists.insert(newList, at: 0)
         
-        let indexPath = IndexPath(row: checklists.count, section: 0)
+        let indexPath = IndexPath(row: insertIndex, section: 0)
         tableView.insertRows(at: [indexPath], with: .automatic)
+        tableView.reloadData()
     }
     
     func checklistDetailViewControllerDidFinish(_ controller: UITableViewController, withUpdatedItem item: Checklist) {
