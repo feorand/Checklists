@@ -36,7 +36,13 @@ class ChecklistsViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, accessoryButtonTappedForRowWith indexPath: IndexPath) {
-        performSegue(withIdentifier: "EditChecklist", sender: checklists[indexPath.row])
+        let navController = storyboard?.instantiateViewController(withIdentifier: "ChecklistDetailNavigationController") as! UINavigationController
+        
+        let controller = navController.topViewController as! ChecklistDetailsViewController
+        controller.checklist = checklists[indexPath.row]
+        controller.delegate = self
+        
+        present(navController, animated: true, completion: nil)
     }
 }
 
@@ -64,7 +70,7 @@ extension ChecklistsViewController {
         case "ShowChecklist":
             let controller = segue.destination as! ChecklistItemsViewController
             controller.checklist = sender as? Checklist
-        case "NewChecklist", "EditChecklist":
+        case "NewChecklist":
             let navController = segue.destination as! UINavigationController
             let controller = navController.topViewController! as! ChecklistDetailsViewController
             controller.checklist = sender as? Checklist

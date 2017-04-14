@@ -255,7 +255,6 @@
                     </navigationItem>
                     <connections>
                         <segue destination="pWo-bX-2al" kind="show" identifier="ShowChecklist" id="O0e-sc-Wea"/>
-                        <segue destination="38W-5v-qbc" kind="presentation" identifier="EditChecklist" id="h53-cN-PKW"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="bjU-y5-THU" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -265,7 +264,7 @@
         <!--Navigation Controller-->
         <scene sceneID="flI-Xh-HIo">
             <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="38W-5v-qbc" sceneMemberID="viewController">
+                <navigationController storyboardIdentifier="ChecklistDetailNavigationController" automaticallyAdjustsScrollViewInsets="NO" id="38W-5v-qbc" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="dDm-B4-iYO">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
@@ -283,6 +282,5 @@
     </scenes>
     <inferredMetricsTieBreakers>
         <segue reference="A4U-uz-2mb"/>
-        <segue reference="h53-cN-PKW"/>
     </inferredMetricsTieBreakers>
 </document>
