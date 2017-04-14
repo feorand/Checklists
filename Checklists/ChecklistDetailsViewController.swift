@@ -27,6 +27,11 @@ class ChecklistDetailsViewController: UITableViewController {
         
         textInput.delegate = self
         self.navigationItem.title = (checklist == nil) ? "New Checklist" : "Edit Checklist"
+        
+        if let checklist = checklist {
+            self.textInput.text = checklist.name
+            doneButton.isEnabled = true
+        }
     }
     
     override func tableView(_ tableView: UITableView, willSelectRowAt indexPath: IndexPath) -> IndexPath? {
