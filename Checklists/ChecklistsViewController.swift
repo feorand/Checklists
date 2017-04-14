@@ -10,7 +10,7 @@ import UIKit
 
 class ChecklistsViewController: UITableViewController {
     
-    var checklists = ChecklistsViewController.Seed(count: 10)
+    var checklists = Checklist.Seed(count: 10)
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return checklists.count
@@ -47,14 +47,7 @@ class ChecklistsViewController: UITableViewController {
 }
 
 extension ChecklistsViewController {
-    static func Seed(count: Int) -> [Checklist] {
-        var items = [Checklist]()
-        for i in 1..<count {
-            items.append(Checklist(named: "Checklist\(i)"))
-        }
-        
-        return items
-    }
+
     
     static func makeCell(for tableView: UITableView, withIndentifier identifier: String) -> UITableViewCell {
         
