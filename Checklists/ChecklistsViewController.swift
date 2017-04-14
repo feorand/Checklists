@@ -14,6 +14,8 @@ class ChecklistsViewController: UITableViewController {
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
+        
+        self.checklists = ChecklistRepo.load()
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {

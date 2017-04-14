@@ -8,3 +8,17 @@
 
 import Foundation
 
+class ChecklistRepo {
+    private static func getStorageFileURL() -> URL {
+        let path = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
+            .first
+        
+        let url = path!.appendingPathComponent("Checklists.plist")
+        return url
+    }
+    
+    static func load() -> [Checklist]{
+        let storageUrl = getStorageFileURL()
+        return [Checklist]()
+    }
+}
