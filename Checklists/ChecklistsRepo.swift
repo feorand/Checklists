@@ -30,7 +30,16 @@ class ChecklistRepo {
     }
     
     static func load() -> [Checklist]{
-        _ = getStorageFileURL()
+        let storageUrl = getStorageFileURL()
+        
+        if let data = try? Data(contentsOf: storageUrl) {
+            let unarchiver = NSKeyedUnarchiver(forReadingWith: data)
+            let checklists = unarchiver.decodeObject(forKey: "Checklists") as! [Checklist]
+            unarchiver.finishDecoding()
+            
+            return checklists
+        }
+        
         return [Checklist]()
     }
 }
