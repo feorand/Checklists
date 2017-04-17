@@ -12,9 +12,14 @@ import UIKit
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
+    var dataModel = ChecklistsDataModel()
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
-        // Override point for customization after application launch.
+        
+        let navController = window!.rootViewController as! UINavigationController
+        let controller = navController.viewControllers[0] as! ChecklistsViewController
+        controller.dataModel = self.dataModel
+        
         return true
     }
 
@@ -24,7 +29,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     func applicationDidEnterBackground(_ application: UIApplication) {
-        saveChecklists()
+        dataModel.saveChecklists()
     }
 
     func applicationWillEnterForeground(_ application: UIApplication) {
@@ -36,13 +41,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     func applicationWillTerminate(_ application: UIApplication) {
-        saveChecklists()
-    }
-
-    private func saveChecklists() {
-        let navController = window!.rootViewController as! UINavigationController
-        let controller = navController.viewControllers[0] as! ChecklistsViewController
-        controller.dataModel.saveChecklists()
+        dataModel.saveChecklists()
     }
 }
 

@@ -10,7 +10,7 @@ import UIKit
 
 class ChecklistsViewController: UITableViewController {
     
-    var dataModel = ChecklistsDataModel()
+    var dataModel: ChecklistsDataModel!
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return dataModel.checklists.count
