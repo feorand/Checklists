@@ -8,7 +8,14 @@
 
 import Foundation
 
-class ChecklistRepo {
+class ChecklistsDataModel {
+    
+    var checklists = [Checklist]()
+    
+    init() {
+        loadChecklists()
+    }
+    
     private static func getStorageFileURL() -> URL {
         let path = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
             .first
@@ -29,17 +36,15 @@ class ChecklistRepo {
         data.write(to: storageUrl, atomically: true)
     }
     
-    static func load() -> [Checklist]{
-        let storageUrl = getStorageFileURL()
+    func loadChecklists() {
+        let storageUrl = ChecklistsDataModel.getStorageFileURL()
         
         if let data = try? Data(contentsOf: storageUrl) {
             let unarchiver = NSKeyedUnarchiver(forReadingWith: data)
             let checklists = unarchiver.decodeObject(forKey: "Checklists") as! [Checklist]
             unarchiver.finishDecoding()
             
-            return checklists
+            self.checklists = checklists
         }
-        
-        return [Checklist]()
     }
 }

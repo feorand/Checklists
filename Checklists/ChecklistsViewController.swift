@@ -10,21 +10,15 @@ import UIKit
 
 class ChecklistsViewController: UITableViewController {
     
-    var checklists = Checklist.Seed(count: 10)
-    
-    required init?(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)
-        
-        self.checklists = ChecklistRepo.load()
-    }
+    var dataModel = ChecklistsDataModel()
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return checklists.count
+        return dataModel.checklists.count
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = ChecklistsViewController.makeCell(for: tableView, withIndentifier: "ChecklistCell")
-        cell.textLabel!.text = checklists[indexPath.row].name
+        cell.textLabel!.text = dataModel.checklists[indexPath.row].name
         cell.accessoryType = .detailDisclosureButton
         
         return cell
@@ -32,20 +26,20 @@ class ChecklistsViewController: UITableViewController {
 
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
-            checklists.remove(at: indexPath.row)
+            dataModel.checklists.remove(at: indexPath.row)
             tableView.deleteRows(at: [indexPath], with: .fade)
         }
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        performSegue(withIdentifier: "ShowChecklist", sender: checklists[indexPath.row])
+        performSegue(withIdentifier: "ShowChecklist", sender: dataModel.checklists[indexPath.row])
     }
     
     override func tableView(_ tableView: UITableView, accessoryButtonTappedForRowWith indexPath: IndexPath) {
         let navController = storyboard?.instantiateViewController(withIdentifier: "ChecklistDetailNavigationController") as! UINavigationController
         
         let controller = navController.topViewController as! ChecklistDetailsViewController
-        controller.checklist = checklists[indexPath.row]
+        controller.checklist = dataModel.checklists[indexPath.row]
         controller.delegate = self
         
         present(navController, animated: true, completion: nil)
@@ -85,9 +79,9 @@ extension ChecklistsViewController: ChecklistDetailsViewControllerDelegate {
     func checklistDetailViewControllerDidFinish(_ controller: UITableViewController, withName name: String) {
         controller.dismiss(animated: true, completion: nil)
         
-        let insertIndex = checklists.count
+        let insertIndex = dataModel.checklists.count
         let newList = Checklist(named: name)
-        checklists.insert(newList, at: 0)
+        dataModel.checklists.insert(newList, at: 0)
         
         let indexPath = IndexPath(row: insertIndex, section: 0)
         tableView.insertRows(at: [indexPath], with: .automatic)

@@ -42,7 +42,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     private func saveChecklists() {
         let navController = window!.rootViewController as! UINavigationController
         let controller = navController.viewControllers[0] as! ChecklistsViewController
-        ChecklistRepo.save(checklists: controller.checklists)
+        ChecklistsDataModel.save(checklists: controller.dataModel.checklists)
     }
 }
 
