@@ -24,13 +24,13 @@ class ChecklistsDataModel {
         return url
     }
     
-    static func save(checklists: [Checklist]) {
-        let storageUrl = getStorageFileURL()
+    func saveChecklists() {
+        let storageUrl = ChecklistsDataModel.getStorageFileURL()
         
         let data = NSMutableData()
         let archiver = NSKeyedArchiver(forWritingWith: data)
         
-        archiver.encode(checklists, forKey: "Checklists")
+        archiver.encode(self.checklists, forKey: "Checklists")
         archiver.finishEncoding()
         
         data.write(to: storageUrl, atomically: true)
