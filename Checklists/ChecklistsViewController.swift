@@ -32,7 +32,7 @@ class ChecklistsViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        performSegue(withIdentifier: "ShowChecklist", sender: dataModel.checklists[indexPath.row])
+        performSegue(withIdentifier: "ShowChecklist", sender: (dataModel.checklists[indexPath.row], indexPath.row))
     }
     
     override func tableView(_ tableView: UITableView, accessoryButtonTappedForRowWith indexPath: IndexPath) {
@@ -59,7 +59,9 @@ extension ChecklistsViewController {
         switch segue.identifier! {
         case "ShowChecklist":
             let controller = segue.destination as! ChecklistItemsViewController
-            controller.checklist = sender as? Checklist
+            let checkTuple = sender as! (Checklist, Int)
+            controller.checklist = checkTuple.0
+            UserDefaults.standard.set(checkTuple.1, forKey: "LastChecklist")
         case "NewChecklist":
             let navController = segue.destination as! UINavigationController
             let controller = navController.topViewController! as! ChecklistDetailsViewController
@@ -92,5 +94,13 @@ extension ChecklistsViewController: ChecklistDetailsViewControllerDelegate {
         controller.dismiss(animated: true, completion: nil)
                 
         tableView.reloadData()
+    }
+}
+
+extension ChecklistsViewController: UINavigationControllerDelegate {
+    func navigationController(_ navigationController: UINavigationController, willShow viewController: UIViewController, animated: Bool) {
+        if navigationController === self {
+            UserDefaults.standard.set(-1, forKey: "LastChecklist")
+        }
     }
 }
