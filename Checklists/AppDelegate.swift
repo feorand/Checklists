@@ -22,7 +22,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         navController.delegate = rootController
         
         let index = ChecklistsDataModel.indexOfCurrentChecklist
-        if index != -1 && dataModel.checklists.count > 0 {
+        if index >= 0 && index < dataModel.checklists.count {
             let controller = navController.storyboard?.instantiateViewController(withIdentifier: "ChecklistItemsViewController") as! ChecklistItemsViewController
             controller.checklist = dataModel.checklists[index]
             navController.pushViewController(controller, animated: true)
