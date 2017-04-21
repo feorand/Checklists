@@ -99,7 +99,7 @@ extension ChecklistsViewController: ChecklistDetailsViewControllerDelegate {
 
 extension ChecklistsViewController: UINavigationControllerDelegate {
     func navigationController(_ navigationController: UINavigationController, willShow viewController: UIViewController, animated: Bool) {
-        if navigationController === self {
+        if viewController === self {
             UserDefaults.standard.set(-1, forKey: "LastChecklist")
         }
     }

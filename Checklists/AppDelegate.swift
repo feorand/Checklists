@@ -17,8 +17,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         
         let navController = window!.rootViewController as! UINavigationController
-        let controller = navController.viewControllers[0] as! ChecklistsViewController
-        controller.dataModel = self.dataModel
+        let rootController = navController.viewControllers[0] as! ChecklistsViewController
+        rootController.dataModel = self.dataModel
+        navController.delegate = rootController
+        
+        let index = UserDefaults.standard.integer(forKey: "LastChecklist")
+        if index != -1 && dataModel.checklists.count > 0 {
+            let controller = navController.storyboard?.instantiateViewController(withIdentifier: "ChecklistItemsViewController") as! ChecklistItemsViewController
+            controller.checklist = dataModel.checklists[index]
+            navController.pushViewController(controller, animated: true)
+        }
         
         return true
     }
