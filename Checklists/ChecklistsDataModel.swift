@@ -13,7 +13,6 @@ class ChecklistsDataModel {
     var checklists = [Checklist]()
     
     init() {
-        seedChecklists()
         loadChecklists()
     }
     
@@ -25,13 +24,9 @@ class ChecklistsDataModel {
         return url
     }
     
-    private func seedChecklists() {
-        if !UserDefaults.standard.bool(forKey: "IsInitialized") {
-            let firstChecklist = Checklist(named: "First Checklist")
-            self.checklists.append(firstChecklist)
-            
-            UserDefaults.standard.set(true, forKey: "IsInitialized")
-        }
+    func seed() {
+        let firstChecklist = Checklist(named: "First Checklist")
+        self.checklists.append(firstChecklist)
     }
     
     func saveChecklists() {
