@@ -21,7 +21,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         rootController.dataModel = self.dataModel
         navController.delegate = rootController
         
-        let index = UserDefaults.standard.integer(forKey: "LastChecklist")
+        let index = ChecklistsDataModel.indexOfCurrentChecklist
         if index != -1 && dataModel.checklists.count > 0 {
             let controller = navController.storyboard?.instantiateViewController(withIdentifier: "ChecklistItemsViewController") as! ChecklistItemsViewController
             controller.checklist = dataModel.checklists[index]

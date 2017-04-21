@@ -47,4 +47,14 @@ class ChecklistsDataModel {
             self.checklists = checklists
         }
     }
+    
+    static var indexOfCurrentChecklist: Int {
+        get {
+            return UserDefaults.standard.integer(forKey: "LastChecklist")
+        }
+        
+        set {
+            UserDefaults.standard.set(newValue, forKey: "LastChecklist")
+        }
+    }
 }

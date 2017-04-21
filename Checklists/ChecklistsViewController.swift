@@ -61,7 +61,7 @@ extension ChecklistsViewController {
             let controller = segue.destination as! ChecklistItemsViewController
             let checkTuple = sender as! (Checklist, Int)
             controller.checklist = checkTuple.0
-            UserDefaults.standard.set(checkTuple.1, forKey: "LastChecklist")
+            ChecklistsDataModel.indexOfCurrentChecklist = checkTuple.1
         case "NewChecklist":
             let navController = segue.destination as! UINavigationController
             let controller = navController.topViewController! as! ChecklistDetailsViewController
@@ -100,7 +100,7 @@ extension ChecklistsViewController: ChecklistDetailsViewControllerDelegate {
 extension ChecklistsViewController: UINavigationControllerDelegate {
     func navigationController(_ navigationController: UINavigationController, willShow viewController: UIViewController, animated: Bool) {
         if viewController === self {
-            UserDefaults.standard.set(-1, forKey: "LastChecklist")
+            ChecklistsDataModel.indexOfCurrentChecklist = -1
         }
     }
 }
