@@ -22,21 +22,16 @@ class Checklist: NSObject, NSCoding {
         super.init()
     }
     
-    static func Seed(count: Int) -> [Checklist] {
-        var items = [Checklist]()
-        for i in 1..<count {
-            let checklist = Checklist(named: "Checklist\(i)")
-            for j in 1..<count {
-                checklist.items.append(ChecklistItem(text: "\(j) of \(checklist.name)", checked: false))
-            }
-            items.append(checklist)
-        }
-        
-        return items
-    }
-    
     func encode(with aCoder: NSCoder) {
         aCoder.encode(name, forKey: "Name")
         aCoder.encode(items, forKey: "Items")
+    }
+    
+    var countNotFinished: Int {
+        get {
+            return self.items
+                .filter(){x in x.checked == false}
+                .count
+        }
     }
 }

@@ -12,15 +12,32 @@ class ChecklistsViewController: UITableViewController {
     
     var dataModel: ChecklistsDataModel!
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        tableView.reloadData()
+    }
+    
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return dataModel.checklists.count
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = ChecklistsViewController.makeCell(for: tableView, withIndentifier: "ChecklistCell")
-        cell.textLabel!.text = dataModel.checklists[indexPath.row].name
+        let checklist = dataModel.checklists[indexPath.row]
+        cell.textLabel!.text = checklist.name
         cell.accessoryType = .detailDisclosureButton
         
+        let countUnfinished = checklist.countNotFinished
+        
+        if checklist.items.count == 0 {
+            cell.detailTextLabel!.text = "Empty"
+        } else if countUnfinished == 0 {
+            cell.detailTextLabel!.text = "Finished"
+        } else {
+            cell.detailTextLabel!.text = "\(countUnfinished) unfinished"
+        }
+    
         return cell
     }
 
@@ -51,7 +68,7 @@ extension ChecklistsViewController {
         if let cell = tableView.dequeueReusableCell(withIdentifier: identifier) {
             return cell
         } else {
-            return UITableViewCell(style: .default, reuseIdentifier: identifier)
+            return UITableViewCell(style: .subtitle, reuseIdentifier: identifier)
         }
     }
     
