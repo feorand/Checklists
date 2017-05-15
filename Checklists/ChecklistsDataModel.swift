@@ -53,6 +53,12 @@ class ChecklistsDataModel {
         }
     }
     
+    func sortChecklists() {
+        self.checklists.sort(by: { checklist1, checklist2 in
+            return checklist1.name.localizedStandardCompare(checklist2.name) == .orderedAscending
+        })
+    }
+    
     static var indexOfCurrentChecklist: Int {
         get {
             return UserDefaults.standard.integer(forKey: "LastChecklist")

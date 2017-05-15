@@ -98,18 +98,18 @@ extension ChecklistsViewController: ChecklistDetailsViewControllerDelegate {
     func checklistDetailViewControllerDidFinish(_ controller: UITableViewController, withName name: String) {
         controller.dismiss(animated: true, completion: nil)
         
-        let insertIndex = dataModel.checklists.count
         let newList = Checklist(named: name)
         dataModel.checklists.insert(newList, at: 0)
+        dataModel.sortChecklists()
         
-        let indexPath = IndexPath(row: insertIndex, section: 0)
-        tableView.insertRows(at: [indexPath], with: .automatic)
         tableView.reloadData()
     }
     
     func checklistDetailViewControllerDidFinish(_ controller: UITableViewController, withUpdatedItem item: Checklist) {
         controller.dismiss(animated: true, completion: nil)
-                
+        
+        dataModel.sortChecklists()
+        
         tableView.reloadData()
     }
 }
