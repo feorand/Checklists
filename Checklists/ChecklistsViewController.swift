@@ -27,6 +27,7 @@ class ChecklistsViewController: UITableViewController {
         let checklist = dataModel.checklists[indexPath.row]
         cell.textLabel!.text = checklist.name
         cell.accessoryType = .detailDisclosureButton
+        cell.imageView!.image = UIImage(named: checklist.iconName)
         
         let countUnfinished = checklist.countNotFinished
         

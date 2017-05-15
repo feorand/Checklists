@@ -11,6 +11,7 @@ import Foundation
 class Checklist: NSObject, NSCoding {
     var name: String = ""
     var items: [ChecklistItem] = []
+    var iconName:String = "No Icon"
     
     init(named name:String) {
         self.name = name
@@ -19,12 +20,14 @@ class Checklist: NSObject, NSCoding {
     required init?(coder aDecoder: NSCoder) {
         self.name = aDecoder.decodeObject(forKey: "Name") as! String
         self.items = aDecoder.decodeObject(forKey: "Items") as! [ChecklistItem]
+        self.iconName = aDecoder.decodeObject(forKey: "IconName") as! String
         super.init()
     }
     
     func encode(with aCoder: NSCoder) {
         aCoder.encode(name, forKey: "Name")
         aCoder.encode(items, forKey: "Items")
+        aCoder.encode(iconName, forKey: "IconName")
     }
     
     var countNotFinished: Int {
