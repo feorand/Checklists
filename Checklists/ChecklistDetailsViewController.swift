@@ -12,6 +12,7 @@ class ChecklistDetailsViewController: UITableViewController {
 
     @IBOutlet weak var textInput: UITextField!
     @IBOutlet weak var doneButton: UIBarButtonItem!
+    @IBOutlet weak var iconImageView: UIImageView!
     
     var delegate: ChecklistDetailsViewControllerDelegate?
     var checklist: Checklist?
@@ -35,6 +36,10 @@ class ChecklistDetailsViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, willSelectRowAt indexPath: IndexPath) -> IndexPath? {
+        if indexPath.section == 1 {
+            return indexPath
+        }
+        
         return nil
     }
 }
