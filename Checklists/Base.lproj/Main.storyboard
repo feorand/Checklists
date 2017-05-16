@@ -358,4 +358,5 @@
     <inferredMetricsTieBreakers>
         <segue reference="A4U-uz-2mb"/>
     </inferredMetricsTieBreakers>
+    <color key="tintColor" red="0.0" green="0.55262276785714282" blue="0.7165178571428571" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
 </document>

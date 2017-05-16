@@ -16,5 +16,6 @@ extension UITableViewCell {
         
         let accessoryLabel = self.viewWithTag(2000) as! UILabel
         accessoryLabel.text = item.checked ? "✔️" : ""
+        accessoryLabel.textColor = self.tintColor
     }
 }
