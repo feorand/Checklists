@@ -17,6 +17,8 @@ class ChecklistDetailsViewController: UITableViewController {
     var delegate: ChecklistDetailsViewControllerDelegate?
     var checklist: Checklist?
     
+    var iconName = "Folder"
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
@@ -27,11 +29,15 @@ class ChecklistDetailsViewController: UITableViewController {
         super.viewDidLoad()
         
         textInput.delegate = self
-        self.navigationItem.title = (checklist == nil) ? "New Checklist" : "Edit Checklist"
         
         if let checklist = checklist {
+            self.navigationItem.title = "Edit Checklist"
             self.textInput.text = checklist.name
+            self.iconName = checklist.iconName
+            self.iconImageView.image = UIImage(named: self.iconName)
             doneButton.isEnabled = true
+        } else {
+            self.navigationItem.title = "New Checklist"
         }
     }
     
@@ -41,6 +47,13 @@ class ChecklistDetailsViewController: UITableViewController {
         }
         
         return nil
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "PickIcon" {
+            let controller = segue.destination as! IconPickerViewController
+            controller.delegate = self
+        }
     }
 }
 
@@ -52,11 +65,14 @@ extension ChecklistDetailsViewController {
     @IBAction func DonePressed() {
         let name = textInput.text!
         
-        if let checklist = checklist {
-            checklist.name = textInput.text!
-            delegate?.checklistDetailViewControllerDidFinish(self, withUpdatedItem: checklist)
+        let outChecklist = checklist ?? Checklist(named: name)
+        outChecklist.name = name
+        outChecklist.iconName = iconName
+        
+        if checklist != nil {
+            delegate?.checklistDetailViewControllerDidFinish(self, withUpdatedItem: outChecklist)
         } else {
-            delegate?.checklistDetailViewControllerDidFinish(self, withName: name)
+            delegate?.checklistDetailViewControllerDidFinish(self, withNewItem: outChecklist)
         }
     }
 }
@@ -72,8 +88,16 @@ extension ChecklistDetailsViewController: UITextFieldDelegate {
     }
 }
 
+extension ChecklistDetailsViewController: IconPickerViewControllerDelegate {
+    func iconPicker(controller: IconPickerViewController, didPick iconName: String) {
+        self.iconName = iconName
+        self.iconImageView.image = UIImage(named: iconName)
+        let _ = navigationController?.popViewController(animated: true)
+    }
+}
+
 protocol ChecklistDetailsViewControllerDelegate {
     func checklistDetailsViewControllerDidCancel(_ controller: UITableViewController)
-    func checklistDetailViewControllerDidFinish(_ controller: UITableViewController, withName name:String)
+    func checklistDetailViewControllerDidFinish(_ controller: UITableViewController, withNewItem item: Checklist)
     func checklistDetailViewControllerDidFinish(_ controller: UITableViewController, withUpdatedItem item: Checklist)
 }

@@ -96,11 +96,10 @@ extension ChecklistsViewController: ChecklistDetailsViewControllerDelegate {
         controller.dismiss(animated: true, completion: nil)
     }
     
-    func checklistDetailViewControllerDidFinish(_ controller: UITableViewController, withName name: String) {
+    func checklistDetailViewControllerDidFinish(_ controller: UITableViewController, withNewItem item: Checklist) {
         controller.dismiss(animated: true, completion: nil)
-        
-        let newList = Checklist(named: name)
-        dataModel.checklists.insert(newList, at: 0)
+
+        dataModel.checklists.insert(item, at: 0)
         dataModel.sortChecklists()
         
         tableView.reloadData()
