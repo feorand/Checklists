@@ -11,10 +11,17 @@ import Foundation
 class Checklist: NSObject, NSCoding {
     var name: String = ""
     var items: [ChecklistItem] = []
-    var iconName:String = "No Icon"
+    var iconName:String
     
-    init(named name:String) {
+    convenience init(named name:String) {
+        self.init(name: name, iconName: "No Icon")
+    }
+    
+    init(name: String, iconName: String) {
         self.name = name
+        self.iconName = iconName
+        
+        super.init()
     }
     
     required init?(coder aDecoder: NSCoder) {
