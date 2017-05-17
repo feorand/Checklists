@@ -10,6 +10,7 @@ import Foundation
 import UIKit
 
 extension UITableViewCell {
+    
     func update(item: ChecklistItem) {
         
         let accessoryText = item.checked ? "✔️ " : ""

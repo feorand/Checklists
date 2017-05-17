@@ -49,6 +49,20 @@ extension ChecklistItemsViewController {
         tableView.insertRows(at: indexPaths, with: .automatic)
     }
     
+    func sortItems() {
+        checklist.items.sort(by: {item1, item2 in
+            if !item1.shouldRemind {
+                return false
+            }
+            
+            if !item2.shouldRemind {
+                return true
+            }
+            
+            return item1.dueDate < item2.dueDate
+        })
+    }
+    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         func getController() -> ItemDetailViewController {
             let navigationController = segue.destination as! UINavigationController
@@ -79,13 +93,17 @@ extension ChecklistItemsViewController: ItemDetailViewControllerDelegate {
     }
     
     func ItemDetailViewControllerDidFinish(_ controller: ItemDetailViewController, withNewItem item: ChecklistItem) {
-        add(newItem: item)
+        checklist.items.append(item)
+        sortItems()
+        tableView.reloadData()
+        
         controller.dismiss(animated: true, completion: nil)
     }
     
     func ItemDetailViewControllerDidFinish(_ controller: ItemDetailViewController, withUpdatedItem item: ChecklistItem) {
         let index = checklist.items.index(of: item)!
         checklist.items[index] = item
+        sortItems()
         tableView.reloadData()
         
         controller.dismiss(animated: true, completion: nil)
