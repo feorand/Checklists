@@ -42,8 +42,7 @@ class ChecklistItemsViewController: UITableViewController {
 }
 
 extension ChecklistItemsViewController {
-    func addNewItem(withName name:String, at itemIndex:Int = 0) {
-        let newItem = ChecklistItem(text: name, checked: false)
+    func add(newItem: ChecklistItem, at itemIndex:Int = 0) {
         checklist.items.insert(newItem, at: itemIndex)
         
         let indexPaths = [IndexPath(row: itemIndex, section: 0)]
@@ -79,8 +78,8 @@ extension ChecklistItemsViewController: ItemDetailViewControllerDelegate {
         controller.dismiss(animated: true, completion: nil)
     }
     
-    func ItemDetailViewControllerDidFinish(_ controller: ItemDetailViewController, withName name: String) {
-        addNewItem(withName: name)
+    func ItemDetailViewControllerDidFinish(_ controller: ItemDetailViewController, withNewItem item: ChecklistItem) {
+        add(newItem: item)
         controller.dismiss(animated: true, completion: nil)
     }
     

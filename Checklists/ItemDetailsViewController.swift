@@ -14,6 +14,8 @@ class ItemDetailViewController: UITableViewController {
     @IBOutlet weak var shouldRemindSwitch: UISwitch!
     @IBOutlet weak var dateLabel: UILabel!
     
+    var dueDate = Date()
+    
     weak var delegate: ItemDetailViewControllerDelegate?
     weak var passedItem: ChecklistItem?
     
@@ -28,11 +30,16 @@ extension ItemDetailViewController {
     }
     
     @IBAction func donePressed() {
-        if let passedItem = passedItem {
-            passedItem.text = textField.text!
-            delegate?.ItemDetailViewControllerDidFinish(self, withUpdatedItem: passedItem)
+        
+        let outItem = passedItem ?? ChecklistItem()
+        outItem.text = textField.text!
+        outItem.shouldRemind = shouldRemindSwitch.isOn
+        outItem.dueDate = self.dueDate
+        
+        if passedItem != nil {
+            delegate?.ItemDetailViewControllerDidFinish(self, withUpdatedItem: outItem)
         } else {
-            delegate?.ItemDetailViewControllerDidFinish(self, withName: textField.text!)
+            delegate?.ItemDetailViewControllerDidFinish(self, withNewItem: outItem)
         }
     }
     
@@ -52,11 +59,18 @@ extension ItemDetailViewController {
         }
         
         doneButton.isEnabled = !textField.text!.isEmpty
-        
+        self.updateDueDateLabel()
     }
     
     @IBAction func shouldRemindSwitchValueChanged() {
             tableView.cellForRow(at: IndexPath(row: 1, section: 1))?.isHidden = !shouldRemindSwitch.isOn
+    }
+    
+    private func updateDueDateLabel() {
+        let formatter = DateFormatter()
+        formatter.dateStyle = .medium
+        formatter.timeStyle = .short
+        self.dateLabel.text = formatter.string(from: dueDate)
     }
 
 }
@@ -77,7 +91,7 @@ protocol ItemDetailViewControllerDelegate: class {
     
     func ItemDetailViewControllerDidCancel(_ controller: ItemDetailViewController)
     
-    func ItemDetailViewControllerDidFinish(_ controller: ItemDetailViewController, withName name: String)
+    func ItemDetailViewControllerDidFinish(_ controller: ItemDetailViewController, withNewItem item: ChecklistItem)
     
     func ItemDetailViewControllerDidFinish(_ controller: ItemDetailViewController, withUpdatedItem item: ChecklistItem)
 }
