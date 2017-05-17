@@ -11,11 +11,15 @@ import UIKit
 
 extension UITableViewCell {
     func update(item: ChecklistItem) {
-        let textLabel = self.viewWithTag(1000) as! UILabel
-        textLabel.text = "\(item.text)"
         
-        let accessoryLabel = self.viewWithTag(2000) as! UILabel
-        accessoryLabel.text = item.checked ? "✔️" : ""
-        accessoryLabel.textColor = self.tintColor
+        let accessoryText = item.checked ? "✔️ " : ""
+        self.textLabel?.text = accessoryText + "\(item.text)"
+        
+        let formatter = DateFormatter()
+        formatter.dateStyle = .medium
+        formatter.timeStyle = .short
+        let dateText = formatter.string(from: item.dueDate)
+        
+        self.detailTextLabel?.text = item.shouldRemind ? "Due: \(dateText)" : ""
     }
 }
