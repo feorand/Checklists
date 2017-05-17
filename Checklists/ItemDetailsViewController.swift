@@ -54,23 +54,24 @@ extension ItemDetailViewController {
         super.viewDidLoad()
         
         if let passedItem = passedItem {
-            title = "Update Item"
-            textField.text = passedItem.text
-        }
+            self.title = "Update Item"
+            self.textField.text = passedItem.text
+            self.shouldRemindSwitch.isOn = passedItem.shouldRemind
+            self.dueDate = passedItem.dueDate        }
         
-        doneButton.isEnabled = !textField.text!.isEmpty
-        self.updateDueDateLabel()
+        self.doneButton.isEnabled = !textField.text!.isEmpty
+        self.updateDueDateLabel(date: dueDate)
     }
     
     @IBAction func shouldRemindSwitchValueChanged() {
-            tableView.cellForRow(at: IndexPath(row: 1, section: 1))?.isHidden = !shouldRemindSwitch.isOn
+        tableView.cellForRow(at: IndexPath(row: 1, section: 1))?.isHidden = !shouldRemindSwitch.isOn
     }
     
-    private func updateDueDateLabel() {
+    private func updateDueDateLabel(date: Date) {
         let formatter = DateFormatter()
         formatter.dateStyle = .medium
         formatter.timeStyle = .short
-        self.dateLabel.text = formatter.string(from: dueDate)
+        self.dateLabel.text = formatter.string(from: date)
     }
 
 }
