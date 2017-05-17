@@ -11,6 +11,8 @@ import UIKit
 class ItemDetailViewController: UITableViewController {
     @IBOutlet weak var textField: UITextField!
     @IBOutlet weak var doneButton: UIBarButtonItem!
+    @IBOutlet weak var shouldRemindSwitch: UISwitch!
+    @IBOutlet weak var dateLabel: UILabel!
     
     weak var delegate: ItemDetailViewControllerDelegate?
     weak var passedItem: ChecklistItem?
@@ -38,6 +40,7 @@ extension ItemDetailViewController {
         super.viewWillAppear(animated)
         
         textField.becomeFirstResponder()
+        shouldRemindSwitchValueChanged()
     }
     
     override func viewDidLoad() {
@@ -49,8 +52,13 @@ extension ItemDetailViewController {
         }
         
         doneButton.isEnabled = !textField.text!.isEmpty
+        
     }
     
+    @IBAction func shouldRemindSwitchValueChanged() {
+            tableView.cellForRow(at: IndexPath(row: 1, section: 1))?.isHidden = !shouldRemindSwitch.isOn
+    }
+
 }
 
 extension ItemDetailViewController: UITextFieldDelegate {
