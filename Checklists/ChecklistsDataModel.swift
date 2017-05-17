@@ -16,7 +16,7 @@ class ChecklistsDataModel {
         loadChecklists()
     }
     
-    private static func getStorageFileURL() -> URL {
+    private class func getStorageFileURL() -> URL {
         let path = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
             .first
         
@@ -59,7 +59,11 @@ class ChecklistsDataModel {
         })
     }
     
-    static var indexOfCurrentChecklist: Int {
+    class func getNextItemID() -> Int {
+        return 0
+    }
+    
+    class var indexOfCurrentChecklist: Int {
         get {
             return UserDefaults.standard.integer(forKey: "LastChecklist")
         }
