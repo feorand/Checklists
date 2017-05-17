@@ -60,7 +60,10 @@ class ChecklistsDataModel {
     }
     
     class func getNextItemID() -> Int {
-        return 0
+        let currentNumber = UserDefaults.standard.integer(forKey: "LastItemID")
+        UserDefaults.standard.set(currentNumber + 1, forKey: "LastItemID")
+        UserDefaults.standard.synchronize()
+        return currentNumber + 1
     }
     
     class var indexOfCurrentChecklist: Int {
