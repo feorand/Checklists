@@ -13,14 +13,43 @@ class ItemDetailViewController: UITableViewController {
     @IBOutlet weak var doneButton: UIBarButtonItem!
     @IBOutlet weak var shouldRemindSwitch: UISwitch!
     @IBOutlet weak var dateLabel: UILabel!
+    @IBOutlet weak var datePicker: UIDatePicker!
     
     var dueDate = Date()
     
     weak var delegate: ItemDetailViewControllerDelegate?
     weak var passedItem: ChecklistItem?
     
+    var dateLabelCell: UITableViewCell? {
+        get {
+            return tableView.cellForRow(at: IndexPath(row: 1, section: 1))
+        }
+    }
+    
+    var datePickerCell: UITableViewCell? {
+        get {
+            return tableView.cellForRow(at: IndexPath(row: 2, section: 1))
+        }
+    }
+    
     override func tableView(_ tableView: UITableView, willSelectRowAt indexPath: IndexPath) -> IndexPath? {
+        if indexPath.section == 1 && indexPath.row == 1 {
+            return indexPath
+        }
+        
         return nil
+    }
+    
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if indexPath.section == 1 && indexPath.row == 1 {
+            datePickerCell?.isHidden = false
+            textField.endEditing(true)
+        }
+    }
+    
+    @IBAction func datePickerValueChanged(sender: UIDatePicker) {
+        self.dueDate = sender.date
+        self.updateDueDateLabel(date: dueDate)
     }
 }
 
@@ -47,7 +76,7 @@ extension ItemDetailViewController {
         super.viewWillAppear(animated)
         
         textField.becomeFirstResponder()
-        shouldRemindSwitchValueChanged()
+        shouldRemindSwitchValueChanged(sender: shouldRemindSwitch)
     }
     
     override func viewDidLoad() {
@@ -59,15 +88,23 @@ extension ItemDetailViewController {
             self.shouldRemindSwitch.isOn = passedItem.shouldRemind
             self.dueDate = passedItem.dueDate        }
         
-        self.doneButton.isEnabled = !textField.text!.isEmpty
-        self.updateDueDateLabel(date: dueDate)
+        self.doneButton.isEnabled = !self.textField.text!.isEmpty
+        self.updateDueDateLabel(date: self.dueDate)
+        
+        self.datePicker.minimumDate = Date()
+        self.datePicker.setDate(self.dueDate, animated: false)
     }
     
-    @IBAction func shouldRemindSwitchValueChanged() {
-        tableView.cellForRow(at: IndexPath(row: 1, section: 1))?.isHidden = !shouldRemindSwitch.isOn
+    @IBAction func shouldRemindSwitchValueChanged(sender: UISwitch) {
+         dateLabelCell?.isHidden = !sender.isOn
+        
+        if !sender.isOn {
+            datePickerCell?.isHidden = true
+            dateLabelCell?.isSelected = false
+        }
     }
     
-    private func updateDueDateLabel(date: Date) {
+    func updateDueDateLabel(date: Date) {
         let formatter = DateFormatter()
         formatter.dateStyle = .medium
         formatter.timeStyle = .short
@@ -77,6 +114,12 @@ extension ItemDetailViewController {
 }
 
 extension ItemDetailViewController: UITextFieldDelegate {
+    
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        datePickerCell?.isHidden = true
+        dateLabelCell?.isSelected = false
+    }
+    
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         
         let oldText = textField.text! as NSString

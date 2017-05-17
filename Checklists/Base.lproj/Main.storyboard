@@ -231,7 +231,7 @@
                                                 <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="RBT-EW-LHz">
                                                     <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
                                                     <nil key="textColor"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <textInputTraits key="textInputTraits" autocapitalizationType="sentences" returnKeyType="done" enablesReturnKeyAutomatically="YES"/>
                                                     <connections>
                                                         <action selector="donePressed" destination="Qz3-cJ-guj" eventType="editingDidEndOnExit" id="Dkf-85-oNz"/>
@@ -267,7 +267,7 @@
                                                 <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="hXb-cO-xUh">
                                                     <rect key="frame" x="256" y="6" width="51" height="31"/>
                                                     <connections>
-                                                        <action selector="shouldRemindSwitchValueChanged" destination="Qz3-cJ-guj" eventType="valueChanged" id="Oy6-ck-myb"/>
+                                                        <action selector="shouldRemindSwitchValueChangedWithSender:" destination="Qz3-cJ-guj" eventType="valueChanged" id="99x-wi-FES"/>
                                                     </connections>
                                                 </switch>
                                             </subviews>
@@ -279,7 +279,7 @@
                                             </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" textLabel="Fku-mb-tc4" detailTextLabel="c7g-Lh-9IQ" style="IBUITableViewCellStyleValue1" id="IiF-r5-JeO">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="blue" indentationWidth="10" textLabel="Fku-mb-tc4" detailTextLabel="c7g-Lh-9IQ" style="IBUITableViewCellStyleValue1" id="IiF-r5-JeO">
                                         <rect key="frame" x="0.0" y="159" width="320" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="IiF-r5-JeO" id="RSu-6L-2GX">
@@ -301,6 +301,34 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                             </subviews>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                    <tableViewCell hidden="YES" clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="217" id="Nf9-Sb-nSW">
+                                        <rect key="frame" x="0.0" y="203" width="320" height="217"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Nf9-Sb-nSW" id="vTd-hv-VY5">
+                                            <rect key="frame" x="0.0" y="0.0" width="320" height="216.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <datePicker contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="dateAndTime" minuteInterval="1" translatesAutoresizingMaskIntoConstraints="NO" id="sqM-GJ-q7L">
+                                                    <rect key="frame" x="0.0" y="0.0" width="320" height="216.5"/>
+                                                    <date key="date" timeIntervalSinceReferenceDate="516724713.12301999">
+                                                        <!--2017-05-17 14:38:33 +0000-->
+                                                    </date>
+                                                    <date key="minimumDate" timeIntervalSinceReferenceDate="-978267600">
+                                                        <!--1970-01-01 11:00:00 +0000-->
+                                                    </date>
+                                                    <connections>
+                                                        <action selector="datePickerValueChangedWithSender:" destination="Qz3-cJ-guj" eventType="valueChanged" id="Yiz-Nb-TXF"/>
+                                                    </connections>
+                                                </datePicker>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstAttribute="trailing" secondItem="sqM-GJ-q7L" secondAttribute="trailing" id="9NK-DE-63K"/>
+                                                <constraint firstItem="sqM-GJ-q7L" firstAttribute="top" secondItem="vTd-hv-VY5" secondAttribute="top" id="EBd-G4-nNh"/>
+                                                <constraint firstAttribute="bottom" secondItem="sqM-GJ-q7L" secondAttribute="bottom" id="Emz-C7-JUY"/>
+                                                <constraint firstItem="sqM-GJ-q7L" firstAttribute="leading" secondItem="vTd-hv-VY5" secondAttribute="leading" id="RVg-zq-hxi"/>
+                                            </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                 </cells>
@@ -325,6 +353,7 @@
                     </navigationItem>
                     <connections>
                         <outlet property="dateLabel" destination="c7g-Lh-9IQ" id="2RY-vo-6yp"/>
+                        <outlet property="datePicker" destination="sqM-GJ-q7L" id="N0d-WS-0Lj"/>
                         <outlet property="doneButton" destination="4xE-9Q-kCQ" id="hGs-Ke-MMn"/>
                         <outlet property="shouldRemindSwitch" destination="hXb-cO-xUh" id="OhZ-he-vnd"/>
                         <outlet property="textField" destination="RBT-EW-LHz" id="a2p-Tu-dFU"/>
