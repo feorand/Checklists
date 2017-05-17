@@ -34,7 +34,15 @@ class ChecklistItem: NSObject {
         super.init()
     }
     
+    deinit {
+        let center = UNUserNotificationCenter.current()
+        center.removePendingNotificationRequests(withIdentifiers: ["\(itemID)"])
+    }
+    
     func scheduleNotification() {
+        let center = UNUserNotificationCenter.current()
+        center.removePendingNotificationRequests(withIdentifiers: ["\(itemID)"])
+        
         if !shouldRemind || dueDate < Date() {
             return
         }
@@ -48,7 +56,6 @@ class ChecklistItem: NSObject {
         let calendarComponents = calendar.dateComponents([.month, .day, .hour, .minute], from: dueDate)
         let trigger = UNCalendarNotificationTrigger(dateMatching: calendarComponents, repeats: false)
         
-        let center = UNUserNotificationCenter.current()
         let request = UNNotificationRequest(identifier: "\(itemID)", content: content, trigger: trigger)
         center.add(request, withCompletionHandler: nil)
     }
