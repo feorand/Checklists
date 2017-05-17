@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import UserNotifications
 
 class ItemDetailViewController: UITableViewController {
     @IBOutlet weak var textField: UITextField!
@@ -65,6 +66,10 @@ extension ItemDetailViewController {
         outItem.shouldRemind = shouldRemindSwitch.isOn
         outItem.dueDate = self.dueDate
         
+        if shouldRemindSwitch.isOn {
+            outItem.scheduleNotification()
+        }
+        
         if passedItem != nil {
             delegate?.ItemDetailViewControllerDidFinish(self, withUpdatedItem: outItem)
         } else {
@@ -77,6 +82,7 @@ extension ItemDetailViewController {
         
         textField.becomeFirstResponder()
         shouldRemindSwitchValueChanged(sender: shouldRemindSwitch)
+        dateLabel.textColor = view.tintColor
     }
     
     override func viewDidLoad() {
@@ -101,6 +107,11 @@ extension ItemDetailViewController {
         if !sender.isOn {
             datePickerCell?.isHidden = true
             dateLabelCell?.isSelected = false
+        }
+        
+        if sender.isOn {
+            let center = UNUserNotificationCenter.current()
+            center.requestAuthorization(options: [.alert, .sound], completionHandler: {granted, error in })
         }
     }
     

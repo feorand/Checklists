@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import UserNotifications
 
 class ChecklistItem: NSObject {
 
@@ -31,6 +32,25 @@ class ChecklistItem: NSObject {
         self.shouldRemind = aDecoder.decodeBool(forKey: "ShouldRemind")
         self.dueDate = aDecoder.decodeObject(forKey: "DueDate") as! Date
         super.init()
+    }
+    
+    func scheduleNotification() {
+        if !shouldRemind || dueDate < Date() {
+            return
+        }
+        
+        let content = UNMutableNotificationContent()
+        content.title = "Raminder!"
+        content.body = text
+        content.sound = UNNotificationSound.default()
+        
+        let calendar = Calendar(identifier: .gregorian)
+        let calendarComponents = calendar.dateComponents([.month, .day, .hour, .minute], from: dueDate)
+        let trigger = UNCalendarNotificationTrigger(dateMatching: calendarComponents, repeats: false)
+        
+        let center = UNUserNotificationCenter.current()
+        let request = UNNotificationRequest(identifier: "\(itemID)", content: content, trigger: trigger)
+        center.add(request, withCompletionHandler: nil)
     }
 }
 
